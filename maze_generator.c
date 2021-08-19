@@ -1,13 +1,36 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+
 void walk(int w1,int h1,int x, int y, int (*vis1)[w1], char (*ver1)[w1][4], char (*hor1)[w1][4]);
+
+/*The function walk is responsible for rendering the maze. 
+It uses recursive bactracking algorithm for this purpose.
+*/
+
 void shuffle(int (*array)[2], size_t n);
+
+/*The function shuffle shuffles the content of an array.
+Here, it is used to pick a random direction of movement*/
+
 int main()
 {
-    int w=16, h=8;
-    srand(time(0));
-    int vis[h+1][w+1];
+    int h,w;
+
+    printf("Enter the size of the maze\n");
+    
+    scanf("%d",&h);
+
+
+    w=2*h;
+
+
+    printf("\n\n");
+
+    srand(time(0)); //functionality similar to random.seed in python.
+
+    int vis[h+1][w+1]; //The array vis is used to keep track of the track that is generated.
+
     char ver[h+1][w+1][4];
     char hor[h+1][w+1][4];
 
@@ -30,6 +53,9 @@ int main()
             }
         }   
     }   
+
+
+
     for (int i=0;i<h;i++)
     {
         for (int j=0;j<w+1;j++)
@@ -43,6 +69,9 @@ int main()
 
         }
     }
+
+
+
     for (int i=0;i<h+1;i++)
     {
         for (int j=0;j<w+1;j++)
@@ -54,26 +83,56 @@ int main()
 
         }
     }
+
+
     walk(16,8,rand()%(w+1),rand()%(h+1), vis,ver,hor);
+
+
+    //Printing of the maze.
+
+
+    for (int k=0; k<w; k++)
+    {
+        printf("+--");
+    }
+
+    printf("+\n");
+
+    for (int k=0; k<w; k++)
+    {
+        printf("|  ");
+    }
+
+    printf("|\n");
+
     for (int i=0; i<h+1; i++)
     {
-        for (int j=0; j<w+1; j++)
+        for (int j=0; j<w; j++)
         {
             printf("%s",hor[i][j]);
         }
-        printf("\n");
+        printf("+\n");
         for (int j=0; j<w+1; j++)
         {
             printf("%s",ver[i][j]);
         }
         printf("\n");
     }
+
+    
+    return 0;
+
 }
+
+
 void walk(int w1,int h1,int x, int y, int (*vis1)[w1], char (*ver1)[w1][4], char (*hor1)[w1][4])
 {
+
     vis1[y][x]=1;
     int d[][2]={{x-1,y},{x,y+1},{x+1,y},{x,y-1}};
+
     shuffle(d,4);
+
     for (int i=0; i<4; i++)
     {
         if (vis1[d[i][1]][d[i][0]])
@@ -106,6 +165,8 @@ void walk(int w1,int h1,int x, int y, int (*vis1)[w1], char (*ver1)[w1][4], char
     }
 
 }
+
+
 void shuffle(int (*array)[2], size_t n)
 {
     if (n > 1) 
